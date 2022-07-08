@@ -1,3 +1,5 @@
+import { IconApps, IconFilePlus, IconPlus } from "@tabler/icons";
+
 import Link from "next/link";
 import data from "data/results";
 import { similar } from "utils/similarity";
@@ -25,8 +27,34 @@ const Database = () => {
 
     return <div className="flex flex-col">
         <div className="w-4/5 self-center">
-            <h1 className="text-2xl font-bold mb-2">Base de données</h1>
-            <input placeholder="Search..." className="my-3 bg-slate-100 bg-opacity-80 rounded p-2 focus:shadow-lg focus:shadow-slate-200 outline-none transition w-full" type="text" value={search} onChange={t => setSearch(t.target.value)} />
+            <div className="flex flex-col">
+                <button onClick={() => {
+                    const newElem = document.createElement("input")
+                    newElem.type = "file"
+                    newElem.onchange = () => {
+                        if (!newElem.files[0]) {
+                            console.warn("No file")
+                            return
+                        }
+                        const formData = new FormData();
+                        formData.append("data", newElem.files[0])
+                        fetch("http://127.0.0.1:5001/test", {
+                            method: "POST",
+                            body: formData
+                        })
+                    }
+                    newElem.click()
+
+
+                }} className="py-2 px-4 hover:text-black hover:bg-white transition bg-black border-[1px] border-black text-white rounded-md w-fit self-end">
+                    <div className="flex space-x-2">
+                        <IconApps strokeWidth="1.25" />
+                        <span>Importer des données</span>
+                    </div>
+                </button>
+                <h1 className="text-2xl font-bold mb-2">Base de données</h1>
+                <input placeholder="Search..." className="my-3 bg-slate-100 bg-opacity-80 rounded p-2 focus:shadow-lg focus:shadow-slate-200 outline-none transition w-full" type="text" value={search} onChange={t => setSearch(t.target.value)} />
+            </div>
             {
                 classes.map((currentClass, i) => {
                     return <div key={i}>

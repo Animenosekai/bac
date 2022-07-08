@@ -1,3 +1,4 @@
+from io import BytesIO
 import json
 from datetime import datetime
 from pathlib import Path
@@ -643,9 +644,8 @@ class Page:
 
 
 class Document:
-    def __init__(self, filepath: Union[str, Path]) -> None:
-        self.filepath = Path(filepath)
-        self.reader = PdfReader(self.filepath)
+    def __init__(self, file: Union[str, Path, BytesIO]) -> None:
+        self.reader = PdfReader(file)
         self.pages: list[Page] = []
         print("Number of pages:", len(self.reader.pages) // 2)
         for i in tqdm(range(0, len(self.reader.pages), 2), desc="Extracting data", unit="page"):
