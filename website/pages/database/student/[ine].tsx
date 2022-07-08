@@ -4,17 +4,18 @@ import { IconAward, IconUserX } from "@tabler/icons";
 import Link from "next/link";
 import { Options } from "components/cards/options";
 import { Rank } from "components/cards/rank";
-import data from "data/results.json"
+import data from "data/results";
 import { range } from "utils/range";
 import { ranking } from "lib/ranking";
 import { subjectName } from "utils/subject";
-import subjects from "data/subjects.json"
 import { useRouter } from "next/router"
+
+const CHART_COLORS = ["#008FFB", "#00E396", "#FEB019", "#FF4560", "#775DD0", "#4B5B29"]
 
 const Student = () => {
     const router = useRouter();
     const { ine } = router.query;
-    const student = data.find(val => val.ine === ine)
+    const student = data().find(val => val.ine === ine)
 
     if (!student) {
         return <div className="flex flex-col justify-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -42,7 +43,7 @@ const Student = () => {
 
     const performance = {}
 
-    let filtered = data.filter(s => s.epreuves.options.includes(student.epreuves.firstOption.name))
+    let filtered = data().filter(s => s.epreuves.options.includes(student.epreuves.firstOption.name))
 
     const firstResults =
         filtered
@@ -63,7 +64,7 @@ const Student = () => {
     let bestPerfSubject = subjectName(student.epreuves.firstOption.name)
     performance[bestPerfSubject] = { rank: bestPerf, total: filtered.length }
 
-    filtered = data.filter(s => s.epreuves.options.includes(student.epreuves.secondOption.name))
+    filtered = data().filter(s => s.epreuves.options.includes(student.epreuves.secondOption.name))
 
     const secondResults =
         filtered
@@ -89,13 +90,13 @@ const Student = () => {
 
 
     Array.from([{ id: "frenchWritten", name: "Français Écrit" }, { id: "frenchSpeaking", name: "Français Oral" }, { id: "philosophy", name: "Philosophie" }, { id: "grandOral", name: "Grand Oral" }]).forEach(val => {
-        const results = data.filter(val => val).sort((a, b) => a.epreuves[val.id].grade < b.epreuves[val.id].grade ? 1 : a.epreuves[val.id].grade === b.epreuves[val.id].grade ? 0 : -1)
+        const results = data().filter(val => val).sort((a, b) => a.epreuves[val.id].grade < b.epreuves[val.id].grade ? 1 : a.epreuves[val.id].grade === b.epreuves[val.id].grade ? 0 : -1)
         const index = results.findIndex(current => current.epreuves[val.id].grade === student.epreuves[val.id].grade) + 1
         if (bestPerf > index) {
             bestPerf = index
             bestPerfSubject = subjectName(val.name)
         }
-        performance[subjectName(val.name)] = { rank: index, total: data.length }
+        performance[subjectName(val.name)] = { rank: index, total: data().length }
     })
 
     const performanceSubjects = Object.keys(performance)
@@ -377,49 +378,71 @@ const Student = () => {
                         text: "Distribution des notes aux épreuves du baccalauréat"
                     },
                     annotations: {
-                        xaxis: [
-                            {
-                                x: 'Note de Français',
-                                borderColor: '#00E396',
+                        xaxis: range(6).map(index => {
+                            const subjects = ["frenchWritten", "frenchSpeaking", "philosophy", "grandOral", "firstOption", "secondOption"]
+                            const subject = subjects[index]
+                            return {
+                                x: student.epreuves[subject].grade,
+                                borderColor: CHART_COLORS[index % CHART_COLORS.length],
                                 label: {
-                                    borderColor: '#00E396',
+                                    borderColor: CHART_COLORS[index % CHART_COLORS.length],
+                                    style: {
+                                        fontSize: '12px',
+                                        color: '#fff',
+                                        background: CHART_COLORS[index % CHART_COLORS.length]
+                                    },
                                     orientation: 'horizontal',
-                                    text: 'X Annotation'
+                                    offsetY: 7,
+                                    text: subject === "frenchWritten"
+                                        ? "Français Écrit"
+                                        : subject === "frenchSpeaking"
+                                            ? "Français Oral"
+                                            : subject === "philosophy"
+                                                ? "Philosophie"
+                                                : subject === "grandOral"
+                                                    ? "Grand Oral"
+                                                    : subject === "firstOption"
+                                                        ? subjectName(student.epreuves.firstOption.name)
+                                                        : subjectName(student.epreuves.secondOption.name)
                                 }
                             }
-                        ]
+                        })
                     }
                 }} type="area" height={350} series={
                     [
                         {
                             name: "Français Écrit",
                             data: range(21).map(val => {
-                                return { x: val, y: data.filter(s => s.epreuves.frenchWritten.grade === val).length }
-                            })
+                                return { x: val, y: data().filter(s => s.epreuves.frenchWritten.grade === val).length }
+                            }),
+                            color: CHART_COLORS[0 % CHART_COLORS.length]
                         },
                         {
                             name: "Français Oral",
                             data: range(21).map(val => {
-                                return { x: val, y: data.filter(s => s.epreuves.frenchSpeaking.grade === val).length }
-                            })
+                                return { x: val, y: data().filter(s => s.epreuves.frenchSpeaking.grade === val).length }
+                            }),
+                            color: CHART_COLORS[1 % CHART_COLORS.length]
                         },
                         {
                             name: "Philosophie",
                             data: range(21).map(val => {
-                                return { x: val, y: data.filter(s => s.epreuves.philosophy.grade === val).length }
-                            })
+                                return { x: val, y: data().filter(s => s.epreuves.philosophy.grade === val).length }
+                            }),
+                            color: CHART_COLORS[2 % CHART_COLORS.length]
                         },
                         {
                             name: "Grand Oral",
                             data: range(21).map(val => {
-                                return { x: val, y: data.filter(s => s.epreuves.grandOral.grade === val).length }
-                            })
+                                return { x: val, y: data().filter(s => s.epreuves.grandOral.grade === val).length }
+                            }),
+                            color: CHART_COLORS[3 % CHART_COLORS.length]
                         },
                         {
                             name: subjectName(student.epreuves.firstOption.name),
                             data: range(21).map(val => {
                                 return {
-                                    x: val, y: data.filter(s => {
+                                    x: val, y: data().filter(s => {
                                         if ((s.epreuves.firstOption.name === student.epreuves.firstOption.name) && (s.epreuves.firstOption.grade === val)) {
                                             return true
                                         } else if ((s.epreuves.secondOption.name === student.epreuves.firstOption.name) && (s.epreuves.secondOption.grade === val)) {
@@ -428,13 +451,14 @@ const Student = () => {
                                         return false
                                     }).length
                                 }
-                            })
+                            }),
+                            color: CHART_COLORS[4 % CHART_COLORS.length]
                         },
                         {
                             name: subjectName(student.epreuves.secondOption.name),
                             data: range(21).map(val => {
                                 return {
-                                    x: val, y: data.filter(s => {
+                                    x: val, y: data().filter(s => {
                                         if ((s.epreuves.firstOption.name === student.epreuves.secondOption.name) && (s.epreuves.firstOption.grade === val)) {
                                             return true
                                         } else if ((s.epreuves.secondOption.name === student.epreuves.secondOption.name) && (s.epreuves.secondOption.grade === val)) {
@@ -443,7 +467,8 @@ const Student = () => {
                                         return false
                                     }).length
                                 }
-                            })
+                            }),
+                            color: CHART_COLORS[5 % CHART_COLORS.length]
                         },
                     ]
                 } />

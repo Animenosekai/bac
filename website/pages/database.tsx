@@ -1,27 +1,27 @@
 import Link from "next/link";
-import data from "data/results.json"
+import data from "data/results";
 import { similar } from "utils/similarity";
 import { useEffect } from "react";
 import { useState } from "react"
 
 const Database = () => {
     const [search, setSearch] = useState<string>();
-    const [elements, setElements] = useState(data);
-    const [classes, setClasses] = useState(data.map(v => v.class).filter((value, index, self) => self.indexOf(value) === index))
+    const [elements, setElements] = useState(data());
+    const [classes, setClasses] = useState(data().map(v => v.class).filter((value, index, self) => self.indexOf(value) === index))
 
     useEffect(() => {
         if (!search) {
-            setElements(data);
+            setElements(data());
             return
         }
-        setElements(similar(data, search, ["lastName", "firstNames.0", "firstNames.1", "firstNames.2", "usageName"]))
+        setElements(similar(data(), search, ["lastName", "firstNames.0", "firstNames.1", "firstNames.2", "usageName"]))
     }, [search])
 
     useEffect(() => {
         setClasses(elements.map(v => v.class).filter((value, index, self) => self.indexOf(value) === index))
     }, [elements])
 
-    data.sort((a, b) => a.lastName.localeCompare(b.lastName))
+    data().sort((a, b) => a.lastName.localeCompare(b.lastName))
 
     return <div className="flex flex-col">
         <div className="w-4/5 self-center">
