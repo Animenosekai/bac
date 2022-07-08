@@ -28,11 +28,11 @@ const Student = () => {
     }
 
     const currentRanking = ranking()
-    const currentRank = currentRanking.findIndex(val => val.ine === ine)
+    const currentRank = currentRanking.findIndex(val => val.ine === ine) + 1
 
     let bestMark = student.epreuves.frenchWritten.grade
     let bestMarkSubject = "Français Écrit"
-    Array.from([{ id: "frenchSpeaking", name: "Français Oral" }, { id: "philosophy", name: "Philosophie" }, { id: "grandOral", name: "Grand Oral" }, { id: "firstOption", name: student.epreuves.options[0] }, { id: "secondOption", name: student.epreuves.options[1] }]).forEach(val => {
+    Array.from([{ id: "frenchSpeaking", name: "Français Oral" }, { id: "philosophy", name: "Philosophie" }, { id: "grandOral", name: "Grand Oral" }, { id: "firstOption", name: student.epreuves.firstOption.name }, { id: "secondOption", name: student.epreuves.secondOption.name }]).forEach(val => {
         if (student.epreuves[val.id].grade > bestMark) {
             bestMark = student.epreuves[val.id].grade
             bestMarkSubject = val.name
@@ -41,15 +41,15 @@ const Student = () => {
 
     const performance = {}
 
-    let filtered = data.filter(s => s.epreuves.options.includes(student.epreuves.options[0]))
+    let filtered = data.filter(s => s.epreuves.options.includes(student.epreuves.firstOption.name))
 
     const firstResults =
         filtered
             .sort((a, b) => {
-                const aField = a.epreuves.options[0] === student.epreuves.options[0]
+                const aField = a.epreuves.firstOption.name === student.epreuves.firstOption.name
                     ? "firstOption"
                     : "secondOption"
-                const bField = b.epreuves.options[0] === student.epreuves.options[0]
+                const bField = b.epreuves.firstOption.name === student.epreuves.firstOption.name
                     ? "firstOption"
                     : "secondOption"
                 return a.epreuves[aField].grade < b.epreuves[bField].grade
@@ -58,19 +58,19 @@ const Student = () => {
                         ? 0
                         : -1
             })
-    let bestPerf = firstResults.findIndex(val => val.ine === student.ine)
-    let bestPerfSubject = student.epreuves.options[0]
+    let bestPerf = firstResults.findIndex(val => val.epreuves.firstOption.grade === student.epreuves.firstOption.grade) + 1
+    let bestPerfSubject = student.epreuves.firstOption.name
     performance[bestPerfSubject] = { rank: bestPerf, total: filtered.length }
 
-    filtered = data.filter(s => s.epreuves.options.includes(student.epreuves.options[1]))
+    filtered = data.filter(s => s.epreuves.options.includes(student.epreuves.secondOption.name))
 
     const secondResults =
         filtered
             .sort((a, b) => {
-                const aField = a.epreuves.options[0] === student.epreuves.options[1]
+                const aField = a.epreuves.firstOption.name === student.epreuves.secondOption.name
                     ? "firstOption"
                     : "secondOption"
-                const bField = b.epreuves.options[0] === student.epreuves.options[1]
+                const bField = b.epreuves.firstOption.name === student.epreuves.secondOption.name
                     ? "firstOption"
                     : "secondOption"
                 return a.epreuves[aField].grade < b.epreuves[bField].grade
@@ -79,17 +79,17 @@ const Student = () => {
                         ? 0
                         : -1
             })
-    const secondIndex = secondResults.findIndex(val => val.ine === student.ine)
+    const secondIndex = secondResults.findIndex(val => val.epreuves.secondOption.grade === student.epreuves.secondOption.grade) + 1
     if (bestPerf > secondIndex) {
         bestPerf = secondIndex
-        bestPerfSubject = student.epreuves.options[1]
+        bestPerfSubject = student.epreuves.secondOption.name
     }
-    performance[student.epreuves.options[1]] = { rank: secondIndex, total: filtered.length }
+    performance[student.epreuves.secondOption.name] = { rank: secondIndex, total: filtered.length }
 
 
     Array.from([{ id: "frenchWritten", name: "Français Écrit" }, { id: "frenchSpeaking", name: "Français Oral" }, { id: "philosophy", name: "Philosophie" }, { id: "grandOral", name: "Grand Oral" }]).forEach(val => {
         const results = data.filter(val => val).sort((a, b) => a.epreuves[val.id].grade < b.epreuves[val.id].grade ? 1 : a.epreuves[val.id].grade === b.epreuves[val.id].grade ? 0 : -1)
-        const index = results.findIndex(val => val.ine === student.ine)
+        const index = results.findIndex(current => current.epreuves[val.id].grade === student.epreuves[val.id].grade) + 1
         if (bestPerf > index) {
             bestPerf = index
             bestPerfSubject = val.name
@@ -296,8 +296,8 @@ const Student = () => {
                                 { x: 'Français Oral', y: student.epreuves.frenchSpeaking.grade },
                                 { x: 'Philosophie', y: student.epreuves.philosophy.grade },
                                 { x: 'Grand Oral', y: student.epreuves.grandOral.grade },
-                                { x: student.epreuves.options[0], y: student.epreuves.firstOption.grade },
-                                { x: student.epreuves.options[1], y: student.epreuves.secondOption.grade }
+                                { x: student.epreuves.firstOption.name, y: student.epreuves.firstOption.grade },
+                                { x: student.epreuves.secondOption.name, y: student.epreuves.secondOption.grade }
                             ],
                         }
                     ]
@@ -308,7 +308,7 @@ const Student = () => {
         <div className="m-10 flex flex-col space-y-10">
             <h1 className="text-2xl font-semibold" id="Classement">Classement</h1>
             <div className='flex flex-col bg-gray-100 rounded-lg bg-opacity-80 p-5 m-5 self-center w-4/5 min-w-max'>
-                <Rank data={currentRanking.slice(currentRank - 5, currentRank + 5).map(val => { return { id: val.ine, name: `${val.lastName} ${val.firstNames[0]}`, link: `/database/student/${val.ine}#Classement` } })} selected={student.ine} selectedRank={currentRank} increment={2} />
+                <Rank data={currentRanking.slice(currentRank - Math.min(currentRank, 5), currentRank + 5).map(val => { return { id: val.ine, name: `${val.lastName} ${val.firstNames[0]}`, link: `/database/student/${val.ine}#Classement` } })} selected={student.ine} selectedRank={currentRank} increment={2} />
             </div>
         </div>
 
@@ -329,7 +329,7 @@ const Student = () => {
                 <Chart options={{
                     // xaxis: { type: 'category', categories: ["Histoire", "EMC", "ENSC", "Sport", student.controleContinu.firstLanguage, student.controleContinu.secondLanguage, student.controleContinu.optionName, "Bulletins"] },
                     xaxis: { type: 'category' },
-                    yaxis: { min: 0 },
+                    yaxis: { min: 0, max: 100 },
                     markers: {
                         size: 5,
                         hover: { size: 9 }
@@ -415,13 +415,13 @@ const Student = () => {
                             })
                         },
                         {
-                            name: student.epreuves.options[0],
+                            name: student.epreuves.firstOption.name,
                             data: range(21).map(val => {
                                 return {
                                     x: val, y: data.filter(s => {
-                                        if ((s.epreuves.options[0] === student.epreuves.options[0]) && (s.epreuves.firstOption.grade === val)) {
+                                        if ((s.epreuves.firstOption.name === student.epreuves.firstOption.name) && (s.epreuves.firstOption.grade === val)) {
                                             return true
-                                        } else if ((s.epreuves.options[1] === student.epreuves.options[0]) && (s.epreuves.secondOption.grade === val)) {
+                                        } else if ((s.epreuves.secondOption.name === student.epreuves.firstOption.name) && (s.epreuves.secondOption.grade === val)) {
                                             return true
                                         }
                                         return false
@@ -430,13 +430,13 @@ const Student = () => {
                             })
                         },
                         {
-                            name: student.epreuves.options[1],
+                            name: student.epreuves.secondOption.name,
                             data: range(21).map(val => {
                                 return {
                                     x: val, y: data.filter(s => {
-                                        if ((s.epreuves.options[0] === student.epreuves.options[1]) && (s.epreuves.firstOption.grade === val)) {
+                                        if ((s.epreuves.firstOption.name === student.epreuves.secondOption.name) && (s.epreuves.firstOption.grade === val)) {
                                             return true
-                                        } else if ((s.epreuves.options[1] === student.epreuves.options[1]) && (s.epreuves.secondOption.grade === val)) {
+                                        } else if ((s.epreuves.secondOption.name === student.epreuves.secondOption.name) && (s.epreuves.secondOption.grade === val)) {
                                             return true
                                         }
                                         return false

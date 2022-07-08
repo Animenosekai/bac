@@ -3,10 +3,12 @@ import { range } from "utils/range"
 
 export const Rank = ({ data, selected, selectedRank, increment }: { data: { id: string, name: string, link?: string }[], selected: string, selectedRank: number, increment?: number }) => {
     const index = data.findIndex(val => val.id === selected)
+    // console.log(data, selected, selectedRank, increment)
     return <div>
         <ol className="space-y-2">
             {
                 range(data.length, -index).map((val, i) => {
+                    // console.log(val)
                     return <li key={i}>
                         <Link href={data[val + index].link} passHref={true}>
                             <a>
@@ -16,7 +18,7 @@ export const Rank = ({ data, selected, selectedRank, increment }: { data: { id: 
                                     fontSize: 20 - ((val > 0 ? val : -val) * (2 / increment ?? 2))
                                 }} className="bg-gray-200 py-2 px-4 rounded justify-between">
                                     <span>{data[val + index].name}</span>
-                                    <span>#{selectedRank + val + 1}</span>
+                                    <span>#{selectedRank + val}</span>
                                 </div>
                             </a>
                         </Link>
