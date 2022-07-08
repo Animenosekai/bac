@@ -7,6 +7,7 @@ import { Rank } from "components/cards/rank";
 import data from "data/results.json"
 import { range } from "utils/range";
 import { ranking } from "lib/ranking";
+import { subjectName } from "utils/subject";
 import subjects from "data/subjects.json"
 import { useRouter } from "next/router"
 
@@ -35,7 +36,7 @@ const Student = () => {
     Array.from([{ id: "frenchSpeaking", name: "Français Oral" }, { id: "philosophy", name: "Philosophie" }, { id: "grandOral", name: "Grand Oral" }, { id: "firstOption", name: student.epreuves.firstOption.name }, { id: "secondOption", name: student.epreuves.secondOption.name }]).forEach(val => {
         if (student.epreuves[val.id].grade > bestMark) {
             bestMark = student.epreuves[val.id].grade
-            bestMarkSubject = val.name
+            bestMarkSubject = subjectName(val.name)
         }
     })
 
@@ -59,7 +60,7 @@ const Student = () => {
                         : -1
             })
     let bestPerf = firstResults.findIndex(val => val.epreuves.firstOption.grade === student.epreuves.firstOption.grade) + 1
-    let bestPerfSubject = student.epreuves.firstOption.name
+    let bestPerfSubject = subjectName(student.epreuves.firstOption.name)
     performance[bestPerfSubject] = { rank: bestPerf, total: filtered.length }
 
     filtered = data.filter(s => s.epreuves.options.includes(student.epreuves.secondOption.name))
@@ -82,9 +83,9 @@ const Student = () => {
     const secondIndex = secondResults.findIndex(val => val.epreuves.secondOption.grade === student.epreuves.secondOption.grade) + 1
     if (bestPerf > secondIndex) {
         bestPerf = secondIndex
-        bestPerfSubject = student.epreuves.secondOption.name
+        bestPerfSubject = subjectName(student.epreuves.secondOption.name)
     }
-    performance[student.epreuves.secondOption.name] = { rank: secondIndex, total: filtered.length }
+    performance[subjectName(student.epreuves.secondOption.name)] = { rank: secondIndex, total: filtered.length }
 
 
     Array.from([{ id: "frenchWritten", name: "Français Écrit" }, { id: "frenchSpeaking", name: "Français Oral" }, { id: "philosophy", name: "Philosophie" }, { id: "grandOral", name: "Grand Oral" }]).forEach(val => {
@@ -92,9 +93,9 @@ const Student = () => {
         const index = results.findIndex(current => current.epreuves[val.id].grade === student.epreuves[val.id].grade) + 1
         if (bestPerf > index) {
             bestPerf = index
-            bestPerfSubject = val.name
+            bestPerfSubject = subjectName(val.name)
         }
-        performance[val.name] = { rank: index, total: data.length }
+        performance[subjectName(val.name)] = { rank: index, total: data.length }
     })
 
     const performanceSubjects = Object.keys(performance)
@@ -243,9 +244,9 @@ const Student = () => {
                                 { x: "EMC", y: null },
                                 { x: 'ENSC', y: student.controleContinu.premiere.ensc.grade },
                                 { x: "Sport", y: null },
-                                { x: subjects[student.controleContinu.firstLanguage]?.short ?? student.controleContinu.firstLanguage, y: student.controleContinu.premiere.firstLanguage?.grade },
-                                { x: subjects[student.controleContinu.secondLanguage]?.short ?? student.controleContinu.secondLanguage, y: student.controleContinu.premiere.secondLanguage?.grade },
-                                { x: subjects[student.controleContinu.optionName]?.short ?? student.controleContinu.optionName, y: student.controleContinu.premiere.option?.grade },
+                                { x: subjectName(student.controleContinu.firstLanguage), y: student.controleContinu.premiere.firstLanguage?.grade },
+                                { x: subjectName(student.controleContinu.secondLanguage), y: student.controleContinu.premiere.secondLanguage?.grade },
+                                { x: subjectName(student.controleContinu.optionName), y: student.controleContinu.premiere.option?.grade },
                                 { x: "Bulletins", y: student.controleContinu.premiere.all?.grade }
                             ],
                         },
@@ -256,9 +257,9 @@ const Student = () => {
                                 { x: "EMC", y: student.controleContinu.terminale.emc?.grade },
                                 { x: "ENSC", y: student.controleContinu.terminale.ensc?.grade },
                                 { x: "Sport", y: student.controleContinu.terminale.sport?.grade },
-                                { x: subjects[student.controleContinu.firstLanguage]?.short ?? student.controleContinu.firstLanguage, y: student.controleContinu.terminale.firstLanguage?.grade },
-                                { x: subjects[student.controleContinu.secondLanguage]?.short ?? student.controleContinu.secondLanguage, y: student.controleContinu.terminale.secondLanguage?.grade },
-                                { x: subjects[student.controleContinu.optionName]?.short ?? student.controleContinu.optionName, y: null },
+                                { x: subjectName(student.controleContinu.firstLanguage), y: student.controleContinu.terminale.firstLanguage?.grade },
+                                { x: subjectName(student.controleContinu.secondLanguage), y: student.controleContinu.terminale.secondLanguage?.grade },
+                                { x: subjectName(student.controleContinu.optionName), y: null },
                                 { x: "Bulletins", y: null }
                             ]
                         }
@@ -296,8 +297,8 @@ const Student = () => {
                                 { x: 'Français Oral', y: student.epreuves.frenchSpeaking.grade },
                                 { x: 'Philosophie', y: student.epreuves.philosophy.grade },
                                 { x: 'Grand Oral', y: student.epreuves.grandOral.grade },
-                                { x: student.epreuves.firstOption.name, y: student.epreuves.firstOption.grade },
-                                { x: student.epreuves.secondOption.name, y: student.epreuves.secondOption.grade }
+                                { x: subjectName(student.epreuves.firstOption.name), y: student.epreuves.firstOption.grade },
+                                { x: subjectName(student.epreuves.secondOption.name), y: student.epreuves.secondOption.grade }
                             ],
                         }
                     ]
@@ -415,7 +416,7 @@ const Student = () => {
                             })
                         },
                         {
-                            name: student.epreuves.firstOption.name,
+                            name: subjectName(student.epreuves.firstOption.name),
                             data: range(21).map(val => {
                                 return {
                                     x: val, y: data.filter(s => {
@@ -430,7 +431,7 @@ const Student = () => {
                             })
                         },
                         {
-                            name: student.epreuves.secondOption.name,
+                            name: subjectName(student.epreuves.secondOption.name),
                             data: range(21).map(val => {
                                 return {
                                     x: val, y: data.filter(s => {
