@@ -1,0 +1,134 @@
+{
+    "Histoire-géographie, géopolitique et sciences politiques": {
+        "emoji": "♟️",
+        "color": "",
+        "short": "HGGSP",
+        "category": "literature"
+    },
+    "Humanités, littérature et philosophie": {
+        "emoji": "🏺",
+        "color": "",
+        "short": "HLP",
+        "category": "literature"
+    },
+    "Langues, littératures et cultures étrangères et régionales - Anglais": {
+        "emoji": "💂",
+        "color": "",
+        "short": "LLCE Anglais",
+        "category": "literature"
+    },
+    "Langues, littératures et cultures étrangères et régionales (Anglais)": {
+        "emoji": "💂",
+        "color": "",
+        "short": "LLCE Anglais",
+        "category": "literature"
+    },
+    "Langues, littératures et cultures étrangères et régionales\n(Anglais)": {
+        "emoji": "💂",
+        "color": "",
+        "short": "LLCE Anglais",
+        "category": "literature"
+    },
+    "Mathématiques": {
+        "emoji": "🧮",
+        "color": "",
+        "short": "Mathématiques",
+        "category": "science"
+    },
+    "Arabe": {
+        "emoji": "👳",
+        "color": "",
+        "short": "Arabe",
+        "category": "literature"
+    },
+    "Art - Arts plastiques": {
+        "emoji": "🎨",
+        "color": "",
+        "short": "Arts Plastiques",
+        "category": "other"
+    },
+    "Anglais": {
+        "emoji": "🇬🇧",
+        "color": "",
+        "short": "Anglais",
+        "category": "literature"
+    },
+    "Allemand": {
+        "emoji": "🇩🇪",
+        "color": "",
+        "short": "Allemand",
+        "category": "literature"
+    },
+    "Espagnol": {
+        "emoji": "🇪🇸",
+        "color": "",
+        "short": "Espagnol",
+        "category": "literature"
+    },
+    "Chinois": {
+        "emoji": "🇨🇳",
+        "color": "",
+        "short": "Chinois",
+        "category": "literature"
+    },
+    "Danois": {
+        "emoji": "🇩🇰",
+        "color": "",
+        "short": "Danois",
+        "category": "literature"
+    },
+    "Droit et grands enjeux du monde contemporain": {
+        "emoji": "🧑‍⚖️",
+        "color": "",
+        "short": "Droit",
+        "category": "literature"
+    },
+    "Italien": {
+        "emoji": "🇮🇹",
+        "color": "",
+        "short": "Italien",
+        "category": "literature"
+    },
+    "Latin": {
+        "emoji": "🏛",
+        "color": "",
+        "short": "Latin",
+        "category": "literature"
+    },
+    "Mathématiques complémentaires": {
+        "emoji": "🧮",
+        "color": "",
+        "short": "Maths complémentaires",
+        "category": "science"
+    },
+    "Mathématiques expertes": {
+        "emoji": "🧮",
+        "color": "",
+        "short": "Maths expertes",
+        "category": "science"
+    },
+    "Philosophie": {
+        "emoji": "🤔",
+        "color": "",
+        "short": "Philosophie",
+        "category": "literature"
+    },
+    "Physique-Chimie": {
+        "emoji": "👩‍🔬",
+        "color": "",
+        "short": "Physique-Chimie",
+        "category": "science"
+    },
+    "Sciences de la vie et de la terre": {
+        "emoji": "🧬",
+        "color": "",
+        "short": "SVT",
+        "category": "science"
+    },
+    "Sciences économiques et sociales": {
+        "emoji": "🪙",
+        "color": "",
+        "short": "SES",
+        "category": "science"
+    }
+}
