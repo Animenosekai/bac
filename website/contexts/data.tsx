@@ -37,7 +37,7 @@ export const DataContextProvider = ({ children }: DataContextProps) => {
                 if (val) {
                     mergeData(val)
                 } else {
-                    console.warn("No data found")
+                    console.warn("It doesn't seem like there is previous data")
                 }
             })
     }, [])
@@ -48,7 +48,7 @@ export const DataContextProvider = ({ children }: DataContextProps) => {
 
     const removeStudent = (ine: string) => {
         setData(data => {
-            return data.filter(val => val.ine !== ine)
+            return data.filter(val => val.ine !== ine).sort((a, b) => a.lastName.localeCompare(b.lastName))
         })
     }
 
@@ -57,7 +57,7 @@ export const DataContextProvider = ({ children }: DataContextProps) => {
         setData(data => {
             const INE = data.map(val => val.ine)
             const result = newData.filter(val => !INE.includes(val.ine))
-            return [...data, ...result]
+            return [...data, ...result].sort((a, b) => a.lastName.localeCompare(b.lastName))
         })
     }
 

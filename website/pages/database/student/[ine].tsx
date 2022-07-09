@@ -2,9 +2,11 @@ import { Chart, fr } from "components/chart";
 import { IconAward, IconTrash, IconUserX } from "@tabler/icons";
 
 import { Button } from "components/ui/button";
+import { Card } from "components/cards/card";
 import Link from "next/link";
 import { Options } from "components/cards/options";
 import { Rank } from "components/cards/rank";
+import { Section } from "components/cards/section";
 import { range } from "utils/range";
 import { subjectName } from "utils/subject";
 import { useData } from "contexts/data";
@@ -217,9 +219,8 @@ const Student = () => {
             </div>
         </div>
 
-        <div className="m-10 flex flex-col space-y-10">
-            <h1 className="text-2xl font-semibold">Contrôle Continu</h1>
-            <div className='flex flex-col bg-gray-100 rounded-lg bg-opacity-80 p-5 m-5 self-center w-4/5 min-w-max'>
+        <Section title="Contrôle Continu">
+            <Card>
                 <Chart options={{
                     // xaxis: { type: 'category', categories: ["Histoire", "EMC", "ENSC", "Sport", student.controleContinu.firstLanguage, student.controleContinu.secondLanguage, student.controleContinu.optionName, "Bulletins"] },
                     xaxis: { type: 'category' },
@@ -267,12 +268,11 @@ const Student = () => {
                         }
                     ]
                 } />
-            </div>
-        </div>
+            </Card>
+        </Section>
 
-        <div className="m-10 flex flex-col space-y-10">
-            <h1 className="text-2xl font-semibold">Épreuves</h1>
-            <div className='flex flex-col bg-gray-100 rounded-lg bg-opacity-80 p-5 m-5 self-center w-4/5 min-w-max'>
+        <Section title="Épreuves">
+            <Card>
                 <Chart options={{
                     // xaxis: { type: 'category', categories: ["Histoire", "EMC", "ENSC", "Sport", student.controleContinu.firstLanguage, student.controleContinu.secondLanguage, student.controleContinu.optionName, "Bulletins"] },
                     xaxis: { type: 'category' },
@@ -305,18 +305,16 @@ const Student = () => {
                         }
                     ]
                 } />
-            </div>
-        </div>
+            </Card>
+        </Section>
 
-        <div className="m-10 flex flex-col space-y-10">
-            <h1 className="text-2xl font-semibold" id="Classement">Classement</h1>
-            <div className='flex flex-col bg-gray-100 rounded-lg bg-opacity-80 p-5 m-5 self-center w-4/5 min-w-max'>
+        <Section title="Classement">
+            <Card>
                 <Rank data={currentRanking.slice(currentRank - Math.min(currentRank, 5), currentRank + 5).map(val => { return { id: val.ine, name: `${val.lastName} ${val.firstNames[0]}`, link: `/database/student/${val.ine}#Classement` } })} selected={student.ine} selectedRank={currentRank} increment={2} />
-            </div>
-        </div>
+            </Card>
+        </Section>
 
-        <div className="m-10 flex flex-col space-y-10">
-            <h1 className="text-2xl font-semibold">Performance</h1>
+        <Section title="Performance">
             <div className="flex flex-row space-x-2 flex-wrap justify-around">
                 <div className="bg-gray-100 bg-opacity-80 rounded-lg p-4">
                     <h2 className="text-lg font-medium">Meilleure Note</h2>
@@ -328,7 +326,7 @@ const Student = () => {
                 </div>
             </div>
 
-            <div className='flex flex-col bg-gray-100 rounded-lg bg-opacity-80 p-5 m-5 self-center w-4/5 min-w-max'>
+            <Card>
                 <Chart options={{
                     // xaxis: { type: 'category', categories: ["Histoire", "EMC", "ENSC", "Sport", student.controleContinu.firstLanguage, student.controleContinu.secondLanguage, student.controleContinu.optionName, "Bulletins"] },
                     xaxis: { type: 'category' },
@@ -363,8 +361,9 @@ const Student = () => {
                         }
                     ]
                 } />
-            </div>
-            <div className='flex flex-col bg-gray-100 rounded-lg bg-opacity-80 p-5 m-5 self-center w-4/5 min-w-max'>
+            </Card>
+
+            <Card>
                 <Chart options={{
                     // xaxis: { type: 'category', categories: ["Histoire", "EMC", "ENSC", "Sport", student.controleContinu.firstLanguage, student.controleContinu.secondLanguage, student.controleContinu.optionName, "Bulletins"] },
                     xaxis: { type: "numeric", categories: range(20) },
@@ -473,8 +472,8 @@ const Student = () => {
                         },
                     ]
                 } />
-            </div>
-        </div>
+            </Card>
+        </Section>
 
         <Button
             Icon={IconTrash}

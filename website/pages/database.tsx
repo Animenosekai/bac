@@ -78,8 +78,6 @@ const Database = () => {
         }
     }
 
-    data.sort((a, b) => a.lastName.localeCompare(b.lastName))
-
     return <div className="flex flex-col">
         <div className="w-4/5 self-center">
             <div className="flex flex-col">
