@@ -3,7 +3,7 @@ import { Chart } from "components/chart";
 import { Section } from "components/cards/section";
 import { useData } from "contexts/data"
 
-const CHART_COLORS = ["#008FFB", "#00E396", "#FEB019", "#FF4560", "#775DD0", "#4B5B29"]
+const CHART_COLORS = ["#008FFB"]
 
 const Statistics = () => {
     const { data } = useData();
@@ -47,13 +47,13 @@ const Statistics = () => {
                         xaxis: [
                             {
                                 x: "Sans Mention",
-                                borderColor: CHART_COLORS[0],
+                                borderColor: "transparent",
                                 label: {
-                                    borderColor: CHART_COLORS[0],
+                                    borderColor: "#008FFB",
                                     style: {
                                         fontSize: '12px',
                                         color: '#fff',
-                                        background: CHART_COLORS[0]
+                                        background: "#008FFB"
                                     },
                                     orientation: 'horizontal',
                                     offsetY: 7,
@@ -62,13 +62,13 @@ const Statistics = () => {
                             },
                             {
                                 x: "Assez Bien",
-                                borderColor: CHART_COLORS[1],
+                                borderColor: "transparent",
                                 label: {
-                                    borderColor: CHART_COLORS[1],
+                                    borderColor: "#008FFB",
                                     style: {
                                         fontSize: '12px',
                                         color: '#fff',
-                                        background: CHART_COLORS[1]
+                                        background: "#008FFB"
                                     },
                                     orientation: 'horizontal',
                                     offsetY: 7,
@@ -77,13 +77,13 @@ const Statistics = () => {
                             },
                             {
                                 x: "Bien",
-                                borderColor: CHART_COLORS[2],
+                                borderColor: "transparent",
                                 label: {
-                                    borderColor: CHART_COLORS[2],
+                                    borderColor: "#008FFB",
                                     style: {
                                         fontSize: '12px',
                                         color: '#fff',
-                                        background: CHART_COLORS[2]
+                                        background: "#008FFB"
                                     },
                                     orientation: 'horizontal',
                                     offsetY: 7,
@@ -92,13 +92,13 @@ const Statistics = () => {
                             },
                             {
                                 x: "Très Bien",
-                                borderColor: CHART_COLORS[3],
+                                borderColor: "transparent",
                                 label: {
-                                    borderColor: CHART_COLORS[3],
+                                    borderColor: "#008FFB",
                                     style: {
                                         fontSize: '12px',
                                         color: '#fff',
-                                        background: CHART_COLORS[3]
+                                        background: "#008FFB"
                                     },
                                     orientation: 'horizontal',
                                     offsetY: 7,
@@ -107,13 +107,13 @@ const Statistics = () => {
                             },
                             {
                                 x: "Félicitations du Jury",
-                                borderColor: CHART_COLORS[4],
+                                borderColor: "transparent",
                                 label: {
-                                    borderColor: CHART_COLORS[4],
+                                    borderColor: "#008FFB",
                                     style: {
                                         fontSize: '12px',
                                         color: '#fff',
-                                        background: CHART_COLORS[4]
+                                        background: "#008FFB"
                                     },
                                     orientation: 'horizontal',
                                     offsetY: 7,
