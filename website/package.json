@@ -8,6 +8,7 @@
   "dependencies": {
     "apexcharts": "^3.35.3",
     "fast-average-color": "^9.1.1",
+    "localforage": "^1.10.0",
     "next": "latest",
     "react": "18.1.0",
     "react-apexcharts": "^1.4.0",

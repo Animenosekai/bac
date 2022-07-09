@@ -66,5 +66,5 @@ with open("data/results.csv", "w") as f:
 print("Exporting to JSON...")
 with open("data/results.json", "w") as f:
     f.write(json.dumps([page.as_dict(camelCase=True) for page in document.pages], indent=4, ensure_ascii=False))
-with open("website/data/results.json", "w") as f:
-    f.write(json.dumps([page.as_dict(camelCase=True) for page in document.pages], indent=4, ensure_ascii=False))
+# with open("website/data/results.json", "w") as f:
+#     f.write(json.dumps([page.as_dict(camelCase=True) for page in document.pages], indent=4, ensure_ascii=False))

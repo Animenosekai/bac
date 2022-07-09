@@ -1,3 +1,4 @@
-export const Statistics = () => {
+const Statistics = () => {
     return
 }
+export default Statistics

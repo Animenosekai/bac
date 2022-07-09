@@ -1,3 +1,4 @@
-export const Ranking = () => {
+const Ranking = () => {
     return
 }
+export default Ranking

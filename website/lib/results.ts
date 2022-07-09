@@ -1,5 +1,3 @@
-import _data from "data/results.json";
-
 export type Results = Result[]
 
 export interface Result {
@@ -113,15 +111,3 @@ export interface CalculResultat {
     average: number
     controleContinu: Total
 }
-
-export const data = () => {
-    if (typeof window !== "undefined") {
-        const results = window.localStorage.getItem("data")
-        if (results) {
-            return JSON.parse(results) as Results
-        }
-    }
-    return _data as Results
-}
-
-export default data
