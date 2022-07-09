@@ -65,7 +65,7 @@ const Database = () => {
                     />
                     <Button
                         Icon={IconLoader}
-                        label="Effacer cette personne"
+                        label="Effacer les données"
                         onClick={clearData} />
                     <Button
                         Icon={
@@ -98,7 +98,7 @@ const Database = () => {
                                 } else {
                                     const formData = new FormData();
                                     formData.append("data", newElem.files[0])
-                                    fetch(Configuration.request.host + "/api/parser", {
+                                    fetch(Configuration.request.host + "/api/parse", {
                                         method: "POST",
                                         body: formData
                                     })
