@@ -34,9 +34,12 @@ export const DataContextProvider = ({ children }: DataContextProps) => {
     useEffect(() => {
         DataStore.getItem("data")
             .then((val: Results) => {
-                mergeData(val)
+                if (val) {
+                    mergeData(val)
+                } else {
+                    console.warn("No data found")
+                }
             })
-        return () => { }
     }, [])
 
     const clearData = () => {
@@ -50,6 +53,7 @@ export const DataContextProvider = ({ children }: DataContextProps) => {
     }
 
     const mergeData = (newData: Results) => {
+        if (!newData) { return }
         setData(data => {
             const INE = data.map(val => val.ine)
             const result = newData.filter(val => !INE.includes(val.ine))
