@@ -17,6 +17,6 @@ export const Navbar = ({ className, props }: any) => {
     return <ul className={cn("flex flex-row absolute right-10", className)} {...props}>
         <NavbarLink href="/ranking" name="Ranking" />
         <NavbarLink href="/statistics" name="Statistiques" />
-        <NavbarLink href="/database" name="Database" />
+        <NavbarLink href="/database" name="Base de données" />
     </ul>
 }

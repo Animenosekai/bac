@@ -49,7 +49,7 @@ export const HamburgerModal = ({ onClose, ...props }) => {
                 <hr />
                 <HamburgerMenuElement onClick={clickHandler} href="/statistics" name="Statistiques" />
                 <hr />
-                <HamburgerMenuElement onClick={clickHandler} href="/database" name="Database" />
+                <HamburgerMenuElement onClick={clickHandler} href="/database" name="Base de données" />
                 <hr />
             </div>
             <div></div>
