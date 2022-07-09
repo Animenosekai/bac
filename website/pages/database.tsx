@@ -15,6 +15,7 @@ const Database = () => {
     const [analyze, setAnalyze] = useState("Analyse en cours")
     const [currentAnalyze, setCurrentAnalyze] = useState(false);
     const [classes, setClasses] = useState(data.map(v => v.class).filter((value, index, self) => self.indexOf(value) === index))
+    const [showInput, setShowInput] = useState(false);
 
     useEffect(() => {
         if (!search) {
@@ -41,6 +42,41 @@ const Database = () => {
             clearInterval(interval)
         }
     }, [])
+
+
+    const onFileChange = (e) => {
+        if (!e.target.files[0]) { return console.warn("The user seems to have aborted the action") }
+        setCurrentAnalyze(true)
+        if (e.target.files[0].name.endsWith(".anise.json")) {
+            e.target.files[0].text()
+                .then(val => {
+                    const results = JSON.parse(val)
+                    setCurrentAnalyze(false)
+                    mergeData(results)
+                })
+        } else {
+            const formData = new FormData();
+            formData.append("data", e.target.files[0])
+            fetch(Configuration.request.host + "/api/parse", {
+                method: "POST",
+                body: formData
+            })
+                .then(resp => resp.json())
+                .then(val => {
+                    if (val.success) {
+                        mergeData(val.data.content)
+                    } else {
+                        throw TypeError(`An error occured when parsing the data: ${val.error}`)
+                    }
+                    setCurrentAnalyze(false)
+                })
+                .catch((e) => {
+                    setAnalyze("Erreur")
+                    console.warn("An error occured when parsing the data", e)
+                    setCurrentAnalyze(false)
+                })
+        }
+    }
 
     data.sort((a, b) => a.lastName.localeCompare(b.lastName))
 
@@ -79,47 +115,20 @@ const Database = () => {
                                 : "Importer des données"
                         }
                         onClick={() => {
-                            if (currentAnalyze) {
-                                return
+                            if (currentAnalyze) { return }
+                            const onFocus = () => {
+                                window.removeEventListener("focus", onFocus)
+                                document.body.addEventListener("mousemove", onMouseMove)
                             }
-                            const newElem = document.createElement("input")
-                            newElem.type = "file"
-                            newElem.accept = "application/pdf, application/json"
-                            newElem.onchange = () => {
-                                if (!newElem.files[0]) { return console.warn("The user seems to have aborted the action") }
-                                setCurrentAnalyze(true)
-                                if (newElem.files[0].name.endsWith(".anise.json")) {
-                                    newElem.files[0].text()
-                                        .then(val => {
-                                            const results = JSON.parse(val)
-                                            setCurrentAnalyze(false)
-                                            mergeData(results)
-                                        })
-                                } else {
-                                    const formData = new FormData();
-                                    formData.append("data", newElem.files[0])
-                                    fetch(Configuration.request.host + "/api/parse", {
-                                        method: "POST",
-                                        body: formData
-                                    })
-                                        .then(resp => resp.json())
-                                        .then(val => {
-                                            if (val.success) {
-                                                mergeData(val.data.content)
-                                            } else {
-                                                throw TypeError(`An error occured when parsing the data: ${val.error}`)
-                                            }
-                                            setCurrentAnalyze(false)
-                                        })
-                                        .catch((e) => {
-                                            console.warn("An error occured when parsing the data", e)
-                                            setCurrentAnalyze(false)
-                                        })
-                                }
+                            const onMouseMove = () => {
+                                document.body.removeEventListener("mousemove", onMouseMove)
+                                setShowInput(false);
                             }
-                            newElem.click()
+                            window.addEventListener("focus", onFocus)
+                            setShowInput(true)
                         }} />
                 </div>
+                {showInput && <input alt={String(showInput)} className="hidden" type="file" accept="application/pdf, application/json" onChange={onFileChange} ref={e => {e?.click();}} />}
                 <h1 className="text-2xl font-bold mb-2">Base de données</h1>
                 <input placeholder="Search..." className="my-3 bg-slate-100 bg-opacity-80 rounded p-2 focus:shadow-lg focus:shadow-slate-200 outline-none transition w-full" type="text" value={search} onChange={t => setSearch(t.target.value)} />
             </div>
