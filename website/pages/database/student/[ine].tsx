@@ -1,6 +1,7 @@
 import { Chart, fr } from "components/chart";
 import { IconAward, IconTrash, IconUserX } from "@tabler/icons";
 
+import { Button } from "components/ui/button";
 import Link from "next/link";
 import { Options } from "components/cards/options";
 import { Rank } from "components/cards/rank";
@@ -475,18 +476,13 @@ const Student = () => {
             </div>
         </div>
 
-
-        <button
-            className="m-10 py-2 px-4 hover:text-black hover:bg-white transition bg-black border-[1px] border-black text-white rounded-md w-fit h-min"
+        <Button
+            Icon={IconTrash}
+            className="m-10"
+            label="Effacer cette personne"
             onClick={() => {
                 removeStudent(ine.toString())
-            }}
-        >
-            <div className="flex space-x-2">
-                <IconTrash strokeWidth="1.25" />
-                <span>Effacer cette personne</span>
-            </div>
-        </button>
+            }} />
 
     </div>
 }
