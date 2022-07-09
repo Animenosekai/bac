@@ -121,7 +121,7 @@ const Student = () => {
                         : "Femme"
                 }
             </span>
-            <span>{`Né le ${new Date(student.birthday).toLocaleDateString("fr")} à ${student.birthplace.city} en ${student.birthplace.country}`}</span>
+            <span>{`Né${student.gender === "FEMALE" ? "e" : ""} le ${new Date(student.birthday).toLocaleDateString("fr")} à ${student.birthplace.city} en ${student.birthplace.country}`}</span>
             <span>{`Réside à ${student.address.city} (${student.address.postalCode})`}</span>
             {/* <span>{`Étudie en classe de ${student.class} au lycée ${student.school}`}</span> */}
             <span>{`Étudie en classe de ${student.class}`}</span>
