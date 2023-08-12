@@ -154,3 +154,7 @@ cython_debug/
 data/*
 .DS_Store
 website/data/results.json
+
+*.anise.json
+
+new

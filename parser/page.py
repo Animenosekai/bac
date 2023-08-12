@@ -130,6 +130,7 @@ class Total:
 
         if not alternative:
             major, _, after = editing.partition(".")
+            # print(major, ".", after)
             self.coefficient = float(major + "." + after[:1])
             editing = after[1:]
 

@@ -3,7 +3,7 @@ import json
 from page import Document
 
 # EXTRACTING DATA
-document = Document("data/document_1.pdf")
+document = Document("data/document_1-pages-189-190.pdf")
 
 
 # CSV

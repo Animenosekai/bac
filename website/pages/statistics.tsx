@@ -39,6 +39,9 @@ const Statistics = () => {
                         type: 'category',
                         categories: ["Sans Mention", "Assez Bien", "Bien", "Très Bien", "Félicitations du Jury"],
                     },
+                    title: {
+                        text: "Répartition des mentions au baccalauréat"
+                    },
                     legend: {
                         position: 'right',
                         offsetY: 40
